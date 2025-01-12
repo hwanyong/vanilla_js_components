@@ -1,0 +1,27 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["src/index.ts"],
+  "out": "docs/api",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeInternal": true,
+  "plugin": ["@mxssfd/typedoc-theme"],
+  "theme": "my-theme",
+  "categorizeByGroup": true,
+  "categoryOrder": ["Components", "Utilities", "*"],
+  "navigationLinks": {
+    "GitHub": "https://github.com/yourusername/vanilla_components",
+    "NPM": "https://www.npmjs.com/package/@csdriveninsight/ui"
+  },
+  "sidebarLinks": {
+    "API": "https://cdn.csdriveninsight.com/docs"
+  },
+  "visibilityFilters": {
+    "protected": false,
+    "private": false,
+    "inherited": true,
+    "external": true
+  },
+  "searchInComments": true,
+  "readme": "none"
+}

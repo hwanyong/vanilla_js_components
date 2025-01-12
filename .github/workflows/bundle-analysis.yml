@@ -1,0 +1,58 @@
+name: Bundle Analysis
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  analyze:
+    name: Analyze Bundle
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Analyze Bundle
+        run: |
+          pnpm run analyze
+          mkdir -p bundle-analysis
+          mv bundle-analysis*.html bundle-analysis/
+
+      - name: Upload Analysis Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle-analysis
+          path: bundle-analysis
+
+      - name: Check Bundle Size
+        run: |
+          # CDN 번들 크기 확인
+          CDN_SIZE=$(stat -f%z dist/cdn/ui.min.js)
+          if [ $CDN_SIZE -gt 102400 ]; then  # 100KB
+            echo "CDN bundle size ($CDN_SIZE bytes) exceeds limit (100KB)"
+            exit 1
+          fi
+
+          # 개별 컴포넌트 크기 확인
+          for file in dist/cdn/components/*.min.js; do
+            SIZE=$(stat -f%z "$file")
+            if [ $SIZE -gt 20480 ]; then  # 20KB
+              echo "Component bundle size ($SIZE bytes) exceeds limit (20KB): $file"
+              exit 1
+            fi
+          done
