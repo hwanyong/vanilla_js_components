@@ -45,8 +45,7 @@ export default [
         'error',
         {
           selector: 'class',
-          format: ['PascalCase'],
-          suffix: ['Element']
+          format: ['PascalCase']
         }
       ],
       'no-console': ['warn', { allow: ['warn', 'error'] }]
