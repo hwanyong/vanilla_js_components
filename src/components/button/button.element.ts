@@ -63,8 +63,7 @@ export class Button extends HTMLElement {
 
   private _applyDefaultAttributes(): void {
     const defaults = buttonTheme.defaultProps;
-
-    ['variant', 'color', 'size', 'radius'].forEach(attr => {
+    (['variant', 'color', 'size', 'radius'] as const).forEach(attr => {
       if (!this.hasAttribute(`vnl-${attr}`)) {
         this.setAttribute(`vnl-${attr}`, defaults[attr]);
       }
