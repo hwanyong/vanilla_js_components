@@ -368,13 +368,11 @@ export const RadiusWithFixedSize = () => html`
   <style>
     .fixed-size-button {
       width: 200px;
-      height: 200px;
     }
     .radius-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit);
       gap: 1rem;
-      padding: 1rem;
     }
   </style>
   <div class="radius-grid">
