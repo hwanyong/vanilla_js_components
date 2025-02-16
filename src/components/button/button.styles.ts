@@ -4,7 +4,8 @@ export const ButtonStyles = `
   :host {
     display: inline-block;
     position: relative;
-    /* Color RGB values for hover effects */
+
+    /* Color RGB values for current/hover effects */
     --primary-rgb: 0, 111, 238;
     --secondary-rgb: 120, 40, 200;
     --success-rgb: 23, 201, 100;
@@ -69,33 +70,33 @@ export const ButtonStyles = `
 
   /* Direct color styles for solid variant */
   :host([vnl-variant="solid"][vnl-color="primary"]) .vnl-button {
-    background: #006FEE;
+    background: rgb(var(--primary-rgb));
     color: white;
-    border-color: #006FEE;
+    border-color: rgb(var(--primary-rgb));
   }
 
   :host([vnl-variant="solid"][vnl-color="secondary"]) .vnl-button {
-    background: #7828C8;
+    background: rgb(var(--secondary-rgb));
     color: white;
-    border-color: #7828C8;
+    border-color: rgb(var(--secondary-rgb));
   }
 
   :host([vnl-variant="solid"][vnl-color="success"]) .vnl-button {
-    background: #17C964;
+    background: rgb(var(--success-rgb));
     color: white;
-    border-color: #17C964;
+    border-color: rgb(var(--success-rgb));
   }
 
   :host([vnl-variant="solid"][vnl-color="warning"]) .vnl-button {
-    background: #F5A524;
+    background: rgb(var(--warning-rgb));
     color: white;
-    border-color: #F5A524;
+    border-color: rgb(var(--warning-rgb));
   }
 
   :host([vnl-variant="solid"][vnl-color="danger"]) .vnl-button {
-    background: #F31260;
+    background: rgb(var(--danger-rgb));
     color: white;
-    border-color: #F31260;
+    border-color: rgb(var(--danger-rgb));
   }
 
   :host([vnl-variant="solid"][vnl-color="default"]) .vnl-button {
@@ -142,27 +143,27 @@ export const ButtonStyles = `
   }
 
   :host([vnl-variant="light"][vnl-color="primary"]) .vnl-button {
-    color: #006FEE;
+    color: rgb(var(--primary-rgb));
     background: rgba(0, 111, 238, 0.1);
   }
 
   :host([vnl-variant="light"][vnl-color="secondary"]) .vnl-button {
-    color: #7828C8;
+    color: rgb(var(--secondary-rgb));
     background: rgba(120, 40, 200, 0.1);
   }
 
   :host([vnl-variant="light"][vnl-color="success"]) .vnl-button {
-    color: #17C964;
+    color: rgb(var(--success-rgb));
     background: rgba(23, 201, 100, 0.1);
   }
 
   :host([vnl-variant="light"][vnl-color="warning"]) .vnl-button {
-    color: #F5A524;
+    color: rgb(var(--warning-rgb));
     background: rgba(245, 165, 36, 0.1);
   }
 
   :host([vnl-variant="light"][vnl-color="danger"]) .vnl-button {
-    color: #F31260;
+    color: rgb(var(--danger-rgb));
     background: rgba(243, 18, 96, 0.1);
   }
 
@@ -177,28 +178,28 @@ export const ButtonStyles = `
   }
 
   :host([vnl-variant="bordered"][vnl-color="primary"]) .vnl-button {
-    color: #006FEE;
-    border-color: #006FEE;
+    color: rgb(var(--primary-rgb));
+    border-color: rgb(var(--primary-rgb));
   }
 
   :host([vnl-variant="bordered"][vnl-color="secondary"]) .vnl-button {
-    color: #7828C8;
-    border-color: #7828C8;
+    color: rgb(var(--secondary-rgb));
+    border-color: rgb(var(--secondary-rgb));
   }
 
   :host([vnl-variant="bordered"][vnl-color="success"]) .vnl-button {
-    color: #17C964;
-    border-color: #17C964;
+    color: rgb(var(--success-rgb));
+    border-color: rgb(var(--success-rgb));
   }
 
   :host([vnl-variant="bordered"][vnl-color="warning"]) .vnl-button {
-    color: #F5A524;
-    border-color: #F5A524;
+    color: rgb(var(--warning-rgb));
+    border-color: rgb(var(--warning-rgb));
   }
 
   :host([vnl-variant="bordered"][vnl-color="danger"]) .vnl-button {
-    color: #F31260;
-    border-color: #F31260;
+    color: rgb(var(--danger-rgb));
+    border-color: rgb(var(--danger-rgb));
   }
 
   :host([vnl-variant="bordered"][vnl-color="default"]) .vnl-button {
@@ -213,23 +214,23 @@ export const ButtonStyles = `
   }
 
   :host([vnl-variant="flat"][vnl-color="primary"]) .vnl-button {
-    color: #006FEE;
+    color: rgb(var(--primary-rgb));
   }
 
   :host([vnl-variant="flat"][vnl-color="secondary"]) .vnl-button {
-    color: #7828C8;
+    color: rgb(var(--secondary-rgb));
   }
 
   :host([vnl-variant="flat"][vnl-color="success"]) .vnl-button {
-    color: #17C964;
+    color: rgb(var(--success-rgb));
   }
 
   :host([vnl-variant="flat"][vnl-color="warning"]) .vnl-button {
-    color: #F5A524;
+    color: rgb(var(--warning-rgb));
   }
 
   :host([vnl-variant="flat"][vnl-color="danger"]) .vnl-button {
-    color: #F31260;
+    color: rgb(var(--danger-rgb));
   }
 
   :host([vnl-variant="flat"][vnl-color="default"]) .vnl-button {
@@ -268,27 +269,27 @@ export const ButtonStyles = `
   }
 
   :host([vnl-variant="faded"][vnl-color="primary"]) .vnl-button {
-    color: #006FEE;
+    color: rgb(var(--primary-rgb));
     background: rgba(0, 111, 238, 0.1);
   }
 
   :host([vnl-variant="faded"][vnl-color="secondary"]) .vnl-button {
-    color: #7828C8;
+    color: rgb(var(--secondary-rgb));
     background: rgba(120, 40, 200, 0.1);
   }
 
   :host([vnl-variant="faded"][vnl-color="success"]) .vnl-button {
-    color: #17C964;
+    color: rgb(var(--success-rgb));
     background: rgba(23, 201, 100, 0.1);
   }
 
   :host([vnl-variant="faded"][vnl-color="warning"]) .vnl-button {
-    color: #F5A524;
+    color: rgb(var(--warning-rgb));
     background: rgba(245, 165, 36, 0.1);
   }
 
   :host([vnl-variant="faded"][vnl-color="danger"]) .vnl-button {
-    color: #F31260;
+    color: rgb(var(--danger-rgb));
     background: rgba(243, 18, 96, 0.1);
   }
 
@@ -309,31 +310,31 @@ export const ButtonStyles = `
 
   :host([vnl-variant="shadow"][vnl-color="primary"]) .vnl-button {
     color: white;
-    background: #006FEE;
+    background: rgb(var(--primary-rgb));
     box-shadow: 0 4px 14px 0 rgba(0, 111, 238, 0.4);
   }
 
   :host([vnl-variant="shadow"][vnl-color="secondary"]) .vnl-button {
     color: white;
-    background: #7828C8;
+    background: rgb(var(--secondary-rgb));
     box-shadow: 0 4px 14px 0 rgba(120, 40, 200, 0.4);
   }
 
   :host([vnl-variant="shadow"][vnl-color="success"]) .vnl-button {
     color: white;
-    background: #17C964;
+    background: rgb(var(--success-rgb));
     box-shadow: 0 4px 14px 0 rgba(23, 201, 100, 0.4);
   }
 
   :host([vnl-variant="shadow"][vnl-color="warning"]) .vnl-button {
     color: white;
-    background: #F5A524;
+    background: rgb(var(--warning-rgb));
     box-shadow: 0 4px 14px 0 rgba(245, 165, 36, 0.4);
   }
 
   :host([vnl-variant="shadow"][vnl-color="danger"]) .vnl-button {
     color: white;
-    background: #F31260;
+    background: rgb(var(--danger-rgb));
     box-shadow: 0 4px 14px 0 rgba(243, 18, 96, 0.4);
   }
 
@@ -354,28 +355,28 @@ export const ButtonStyles = `
   }
 
   :host([vnl-variant="ghost"][vnl-color="primary"]) .vnl-button {
-    border-color: #006FEE;
-    color: #006FEE;
+    border-color: rgb(var(--primary-rgb));
+    color: rgb(var(--primary-rgb));
   }
 
   :host([vnl-variant="ghost"][vnl-color="secondary"]) .vnl-button {
-    border-color: #7828C8;
-    color: #7828C8;
+    border-color: rgb(var(--secondary-rgb));
+    color: rgb(var(--secondary-rgb));
   }
 
   :host([vnl-variant="ghost"][vnl-color="success"]) .vnl-button {
-    border-color: #17C964;
-    color: #17C964;
+    border-color: rgb(var(--success-rgb));
+    color: rgb(var(--success-rgb));
   }
 
   :host([vnl-variant="ghost"][vnl-color="warning"]) .vnl-button {
-    border-color: #F5A524;
-    color: #F5A524;
+    border-color: rgb(var(--warning-rgb));
+    color: rgb(var(--warning-rgb));
   }
 
   :host([vnl-variant="ghost"][vnl-color="danger"]) .vnl-button {
-    border-color: #F31260;
-    color: #F31260;
+    border-color: rgb(var(--danger-rgb));
+    color: rgb(var(--danger-rgb));
   }
 
   :host([vnl-variant="ghost"][vnl-color="default"]) .vnl-button {
