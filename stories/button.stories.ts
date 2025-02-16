@@ -3,6 +3,7 @@ import { html } from 'lit';
 import '../src/components/button/button.element';
 import '../src/components/button/button-group.element';
 import { theme } from '../src/theme';
+import { Button } from '../src/components/button/button.element';
 
 export default {
   title: 'Components/Button',
@@ -209,3 +210,38 @@ export const CustomStyling = () => html`
     Custom Styled
   </vnl-button>
 `;
+
+export const ColorVariants = () => {
+  const container = document.createElement('div');
+  container.style.display = 'flex';
+  container.style.gap = '1rem';
+  container.style.padding = '1rem';
+  container.style.flexWrap = 'wrap';
+
+  const colors = ['primary', 'secondary', 'success', 'warning', 'danger', 'default'];
+  const variants = ['solid', 'bordered', 'light', 'flat', 'faded', 'shadow', 'ghost'];
+
+  variants.forEach(variant => {
+    const variantContainer = document.createElement('div');
+    variantContainer.style.display = 'flex';
+    variantContainer.style.flexDirection = 'column';
+    variantContainer.style.gap = '0.5rem';
+
+    const variantLabel = document.createElement('div');
+    variantLabel.textContent = variant;
+    variantLabel.style.marginBottom = '0.5rem';
+    variantContainer.appendChild(variantLabel);
+
+    colors.forEach(color => {
+      const button = document.createElement('vnl-button') as Button;
+      button.setAttribute('vnl-variant', variant);
+      button.setAttribute('vnl-color', color);
+      button.textContent = `${color}`;
+      variantContainer.appendChild(button);
+    });
+
+    container.appendChild(variantContainer);
+  });
+
+  return container;
+};

@@ -8,143 +8,6 @@ export const buttonTheme = {
     radius: 'md',
   },
   styles: {
-    base: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: theme.space.sm,
-      transition: 'all 200ms ease',
-      cursor: 'pointer',
-      fontFamily: theme.fonts.sans,
-      fontWeight: '500',
-      userSelect: 'none',
-      position: 'relative',
-      whiteSpace: 'nowrap',
-      outline: 'none',
-    },
-    sizes: {
-      sm: {
-        fontSize: theme.fontSizes.sm,
-        padding: `${theme.space.sm} ${theme.space.md}`,
-        height: '32px',
-        minWidth: '32px',
-      },
-      md: {
-        fontSize: theme.fontSizes.md,
-        padding: `${theme.space.sm} ${theme.space.lg}`,
-        height: '40px',
-        minWidth: '40px',
-      },
-      lg: {
-        fontSize: theme.fontSizes.lg,
-        padding: `${theme.space.md} ${theme.space.lg}`,
-        height: '48px',
-        minWidth: '48px',
-      },
-    },
-    variants: {
-      solid: {
-        backgroundColor: 'var(--button-bg-color)',
-        color: '#fff',
-        border: 'none',
-        '&:hover': {
-          opacity: 0.85,
-        },
-        '&:active': {
-          opacity: 0.7,
-        },
-      },
-      bordered: {
-        backgroundColor: 'transparent',
-        border: '1px solid var(--button-bg-color)',
-        color: 'var(--button-bg-color)',
-        '&:hover': {
-          backgroundColor: 'var(--button-bg-color)',
-          color: '#fff',
-          opacity: 0.85,
-        },
-      },
-      light: {
-        backgroundColor: 'var(--button-light-color)',
-        color: 'var(--button-bg-color)',
-        border: 'none',
-        '&:hover': {
-          backgroundColor: 'var(--button-light-hover-color)',
-        },
-      },
-      flat: {
-        backgroundColor: 'transparent',
-        color: 'var(--button-bg-color)',
-        border: 'none',
-        '&:hover': {
-          backgroundColor: 'var(--button-light-color)',
-        },
-      },
-      faded: {
-        backgroundColor: 'var(--button-light-color)',
-        color: 'var(--button-bg-color)',
-        border: 'none',
-        opacity: 0.7,
-        '&:hover': {
-          opacity: 1,
-        },
-      },
-      shadow: {
-        backgroundColor: 'var(--button-bg-color)',
-        color: '#fff',
-        border: 'none',
-        boxShadow: '0 4px 14px 0 var(--button-shadow-color)',
-        '&:hover': {
-          opacity: 0.85,
-        },
-      },
-      ghost: {
-        backgroundColor: 'transparent',
-        color: 'var(--button-bg-color)',
-        border: 'none',
-        '&:hover': {
-          backgroundColor: 'var(--button-light-color)',
-        },
-      },
-    },
-    colorStyles: {
-      primary: {
-        '--button-bg-color': theme.colors.primary,
-        '--button-light-color': 'rgba(0, 111, 238, 0.1)',
-        '--button-light-hover-color': 'rgba(0, 111, 238, 0.2)',
-        '--button-shadow-color': 'rgba(0, 111, 238, 0.4)',
-      },
-      secondary: {
-        '--button-bg-color': theme.colors.secondary,
-        '--button-light-color': 'rgba(120, 40, 200, 0.1)',
-        '--button-light-hover-color': 'rgba(120, 40, 200, 0.2)',
-        '--button-shadow-color': 'rgba(120, 40, 200, 0.4)',
-      },
-      success: {
-        '--button-bg-color': theme.colors.success,
-        '--button-light-color': 'rgba(23, 201, 100, 0.1)',
-        '--button-light-hover-color': 'rgba(23, 201, 100, 0.2)',
-        '--button-shadow-color': 'rgba(23, 201, 100, 0.4)',
-      },
-      warning: {
-        '--button-bg-color': theme.colors.warning,
-        '--button-light-color': 'rgba(245, 165, 36, 0.1)',
-        '--button-light-hover-color': 'rgba(245, 165, 36, 0.2)',
-        '--button-shadow-color': 'rgba(245, 165, 36, 0.4)',
-      },
-      danger: {
-        '--button-bg-color': theme.colors.danger,
-        '--button-light-color': 'rgba(243, 18, 96, 0.1)',
-        '--button-light-hover-color': 'rgba(243, 18, 96, 0.2)',
-        '--button-shadow-color': 'rgba(243, 18, 96, 0.4)',
-      },
-      default: {
-        '--button-bg-color': theme.colors.default,
-        '--button-light-color': 'rgba(113, 113, 122, 0.1)',
-        '--button-light-hover-color': 'rgba(113, 113, 122, 0.2)',
-        '--button-shadow-color': 'rgba(113, 113, 122, 0.4)',
-      },
-    },
     radius: {
       none: '0',
       sm: theme.radii.sm,
@@ -152,5 +15,55 @@ export const buttonTheme = {
       lg: theme.radii.lg,
       full: theme.radii.full,
     },
+    colors: {
+      primary: {
+        base: 'var(--vnl-colors-primary)',
+        light: 'rgba(0, 111, 238, 0.1)',
+        lighter: 'rgba(0, 111, 238, 0.2)',
+        dark: 'rgba(0, 111, 238, 0.8)',
+        darker: 'rgba(0, 111, 238, 0.9)',
+        shadow: 'rgba(0, 111, 238, 0.4)'
+      },
+      secondary: {
+        base: 'var(--vnl-colors-secondary)',
+        light: 'rgba(120, 40, 200, 0.1)',
+        lighter: 'rgba(120, 40, 200, 0.2)',
+        dark: 'rgba(120, 40, 200, 0.8)',
+        darker: 'rgba(120, 40, 200, 0.9)',
+        shadow: 'rgba(120, 40, 200, 0.4)'
+      },
+      success: {
+        base: 'var(--vnl-colors-success)',
+        light: 'rgba(23, 201, 100, 0.1)',
+        lighter: 'rgba(23, 201, 100, 0.2)',
+        dark: 'rgba(23, 201, 100, 0.8)',
+        darker: 'rgba(23, 201, 100, 0.9)',
+        shadow: 'rgba(23, 201, 100, 0.4)'
+      },
+      warning: {
+        base: 'var(--vnl-colors-warning)',
+        light: 'rgba(245, 165, 36, 0.1)',
+        lighter: 'rgba(245, 165, 36, 0.2)',
+        dark: 'rgba(245, 165, 36, 0.8)',
+        darker: 'rgba(245, 165, 36, 0.9)',
+        shadow: 'rgba(245, 165, 36, 0.4)'
+      },
+      danger: {
+        base: 'var(--vnl-colors-danger)',
+        light: 'rgba(243, 18, 96, 0.1)',
+        lighter: 'rgba(243, 18, 96, 0.2)',
+        dark: 'rgba(243, 18, 96, 0.8)',
+        darker: 'rgba(243, 18, 96, 0.9)',
+        shadow: 'rgba(243, 18, 96, 0.4)'
+      },
+      default: {
+        base: 'var(--vnl-colors-default)',
+        light: 'rgba(113, 113, 122, 0.1)',
+        lighter: 'rgba(113, 113, 122, 0.2)',
+        dark: 'rgba(113, 113, 122, 0.8)',
+        darker: 'rgba(113, 113, 122, 0.9)',
+        shadow: 'rgba(113, 113, 122, 0.4)'
+      }
+    }
   },
 } as const;

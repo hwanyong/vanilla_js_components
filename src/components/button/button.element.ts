@@ -43,34 +43,35 @@ export class Button extends HTMLElement {
       <slot name="end-content" part="end-content"></slot>
     `;
 
+    if (this.loading) {
+      const spinner = document.createElement('span');
+      spinner.className = 'spinner';
+      this.button.appendChild(spinner);
+    }
+
     shadow.appendChild(style);
     shadow.appendChild(this.button);
 
     if (!this.hasAttribute('vnl-disableRipple')) {
-      const ripple = document.createElement('vnl-ripple');
-
-      this.button.appendChild(ripple);
-      this.ripple = ripple as Ripple;
+      this.ripple = document.createElement('vnl-ripple') as Ripple;
+      this.button.appendChild(this.ripple);
     }
 
     this._setupEventListeners();
-    this._applyDefaultAttributes();
   }
 
   private _applyDefaultAttributes(): void {
-    const defaults = buttonTheme.defaultProps;
-
     if (!this.hasAttribute('vnl-variant')) {
-      this.setAttribute('vnl-variant', defaults.variant);
+      this.setAttribute('vnl-variant', 'solid');
     }
     if (!this.hasAttribute('vnl-color')) {
-      this.setAttribute('vnl-color', defaults.color);
+      this.setAttribute('vnl-color', 'primary');
     }
     if (!this.hasAttribute('vnl-size')) {
-      this.setAttribute('vnl-size', defaults.size);
+      this.setAttribute('vnl-size', 'md');
     }
     if (!this.hasAttribute('vnl-radius')) {
-      this.setAttribute('vnl-radius', defaults.radius);
+      this.setAttribute('vnl-radius', 'md');
     }
   }
 
@@ -202,17 +203,6 @@ export class Button extends HTMLElement {
     );
   }
 
-  private _updateColorVariables(): void {
-    const color = this.getAttribute('vnl-color') || buttonTheme.defaultProps.color;
-    const colorStyles = buttonTheme.styles.colorStyles[color as keyof typeof buttonTheme.styles.colorStyles];
-
-    if (colorStyles) {
-      Object.entries(colorStyles).forEach(([property, value]) => {
-        this.style.setProperty(property, value);
-      });
-    }
-  }
-
   // Getters/Setters
   get disabled(): boolean {
     return this.hasAttribute('vnl-disabled');
@@ -263,13 +253,26 @@ export class Button extends HTMLElement {
         }
         break;
       case 'vnl-color':
-        this._updateColorVariables();
+      case 'vnl-variant':
+        // CSS 변수와 클래스로 처리되므로 추가 처리 불필요
         break;
     }
+
+    // Dispatch attribute change event for external state management
+    this.dispatchEvent(
+      new CustomEvent('vnl-change', {
+        bubbles: true,
+        composed: true,
+        detail: { name, oldValue, newValue }
+      })
+    );
   }
 
   connectedCallback(): void {
-    this._updateColorVariables();
+    if (!this.hasAttribute('role')) {
+      this.setAttribute('role', 'button');
+    }
+    this._applyDefaultAttributes();
   }
 }
 
