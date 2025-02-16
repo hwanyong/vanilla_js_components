@@ -354,26 +354,32 @@ export const ButtonStyles = `
   }
 
   :host([vnl-variant="ghost"][vnl-color="primary"]) .vnl-button {
+    border-color: #006FEE;
     color: #006FEE;
   }
 
   :host([vnl-variant="ghost"][vnl-color="secondary"]) .vnl-button {
+    border-color: #7828C8;
     color: #7828C8;
   }
 
   :host([vnl-variant="ghost"][vnl-color="success"]) .vnl-button {
+    border-color: #17C964;
     color: #17C964;
   }
 
   :host([vnl-variant="ghost"][vnl-color="warning"]) .vnl-button {
+    border-color: #F5A524;
     color: #F5A524;
   }
 
   :host([vnl-variant="ghost"][vnl-color="danger"]) .vnl-button {
+    border-color: #F31260;
     color: #F31260;
   }
 
   :host([vnl-variant="ghost"][vnl-color="default"]) .vnl-button {
+    border-color: #71717A;
     color: #71717A;
   }
 
