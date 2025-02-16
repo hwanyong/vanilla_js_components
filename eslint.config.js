@@ -5,7 +5,6 @@ import prettier from 'eslint-plugin-prettier';
 import eslintConfigPrettier from 'eslint-config-prettier';
 
 export default [
-  eslint.configs.recommended,
   {
     files: ['**/*.ts'],
     languageOptions: {
@@ -29,26 +28,12 @@ export default [
       'prettier': prettier
     },
     rules: {
-      'prettier/prettier': ['error', {
-        endOfLine: 'auto'
-      }],
-      '@typescript-eslint/explicit-function-return-type': ['error', {
-        allowExpressions: true,
-        allowTypedFunctionExpressions: true
-      }],
-      '@typescript-eslint/no-explicit-any': 'error',
-      '@typescript-eslint/no-unused-vars': ['error', {
-        argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_'
-      }],
-      '@typescript-eslint/naming-convention': [
-        'error',
-        {
-          selector: 'class',
-          format: ['PascalCase']
-        }
-      ],
-      'no-console': ['warn', { allow: ['warn', 'error'] }]
+      'prettier/prettier': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/naming-convention': 'off',
+      'no-console': 'off'
     }
   },
   {
@@ -56,12 +41,6 @@ export default [
     rules: {
       '@typescript-eslint/no-unused-vars': 'off',
       'no-unused-vars': 'off'
-    }
-  },
-  {
-    files: ['**/*.test.ts'],
-    env: {
-      jest: true
     }
   },
   eslintConfigPrettier

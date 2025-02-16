@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vanilla Components Demo</title>
+  <style>
+    :root {
+      --primary-color: #006FEE;
+      --text-color: #11181C;
+      --bg-color: #f9fafb;
+    }
+
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .component-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .component-card {
+      background: white;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .component-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .component-card h2 {
+      margin: 0 0 1rem 0;
+      color: var(--primary-color);
+    }
+
+    .component-card p {
+      margin: 0 0 1.5rem 0;
+      color: #4b5563;
+    }
+
+    .component-card a {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: var(--primary-color);
+      color: white;
+      text-decoration: none;
+      border-radius: 0.25rem;
+      transition: background-color 0.2s;
+    }
+
+    .component-card a:hover {
+      background: #0055b8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Vanilla Components Demo</h1>
+
+    <div class="component-grid">
+      <div class="component-card">
+        <h2>Button</h2>
+        <p>A versatile button component with various styles, sizes, and states.</p>
+        <a href="/src/components/button/">View Demo</a>
+      </div>
+      <!-- 추가 컴포넌트 카드는 여기에 추가 -->
+    </div>
+  </div>
+</body>
+</html>

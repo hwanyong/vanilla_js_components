@@ -3,8 +3,18 @@ prefix: `vnl`
 dataset attribute: `data-vnl-*`
 
 ## Component Naming
-- Custom Element Tag: `{component-name}`
-  - Example: `button`, `card`
+- Custom Element Tag: `vnl-{component-name}`
+  - Example: `vnl-button`, `vnl-card`
+  - Reasons for using prefix (vnl-):
+    1. Prevent conflicts with HTML standard tags
+       - Avoid naming conflicts with current or future HTML standard tags
+       - Example: `<button>`, `<dialog>`, `<menu>` etc.
+    2. Namespace distinction
+       - Distinguish from components of other libraries or frameworks
+       - Indicate project-specific components
+    3. Web Components spec requirements
+       - Custom elements must include a hyphen (-)
+       - Cannot be registered with a single word
 - Component Class: `{ComponentName}`
   - Example: `Button`, `Card`
 - Component File: `{component-name}.ts`
