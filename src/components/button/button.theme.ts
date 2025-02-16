@@ -2,14 +2,31 @@ import { theme } from '../../theme';
 
 export const buttonTheme = {
   defaultProps: {
-    variant: 'solid',
-    color: 'primary',
-    size: 'md',
-    radius: 'md',
+    variant: 'solid' as const,
+    color: 'primary' as const,
+    size: 'md' as const,
+    radius: 'md' as const,
   },
   styles: {
+    sizes: {
+      sm: {
+        height: '32px',
+        padding: '0.5rem 1rem',
+        fontSize: theme.fontSizes.sm,
+      },
+      md: {
+        height: '40px',
+        padding: '0.625rem 1.25rem',
+        fontSize: theme.fontSizes.md,
+      },
+      lg: {
+        height: '48px',
+        padding: '0.75rem 1.5rem',
+        fontSize: theme.fontSizes.lg,
+      },
+    },
     radius: {
-      none: '0',
+      none: theme.radii.none,
       sm: theme.radii.sm,
       md: theme.radii.md,
       lg: theme.radii.lg,
@@ -67,3 +84,8 @@ export const buttonTheme = {
     }
   },
 } as const;
+
+export type ButtonVariant = 'solid' | 'bordered' | 'light' | 'flat' | 'faded' | 'shadow' | 'ghost';
+export type ButtonColor = 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
+export type ButtonSize = 'sm' | 'md' | 'lg';
+export type ButtonRadius = 'none' | 'sm' | 'md' | 'lg' | 'full';

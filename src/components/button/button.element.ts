@@ -35,6 +35,10 @@ export class Button extends HTMLElement {
     this.button.setAttribute('part', 'button');
     this.button.classList.add('vnl-button');
 
+    // Apply default attributes immediately
+    this._applyDefaultAttributes();
+
+    // Basic button structure
     this.button.innerHTML = `
       <slot name="start-content" part="start-content"></slot>
       <span class="content" part="content">
@@ -42,12 +46,6 @@ export class Button extends HTMLElement {
       </span>
       <slot name="end-content" part="end-content"></slot>
     `;
-
-    if (this.loading) {
-      const spinner = document.createElement('span');
-      spinner.className = 'spinner';
-      this.button.appendChild(spinner);
-    }
 
     shadow.appendChild(style);
     shadow.appendChild(this.button);
@@ -58,21 +56,19 @@ export class Button extends HTMLElement {
     }
 
     this._setupEventListeners();
+
+    // Force a style recalculation
+    this.offsetHeight;
   }
 
   private _applyDefaultAttributes(): void {
-    if (!this.hasAttribute('vnl-variant')) {
-      this.setAttribute('vnl-variant', 'solid');
-    }
-    if (!this.hasAttribute('vnl-color')) {
-      this.setAttribute('vnl-color', 'primary');
-    }
-    if (!this.hasAttribute('vnl-size')) {
-      this.setAttribute('vnl-size', 'md');
-    }
-    if (!this.hasAttribute('vnl-radius')) {
-      this.setAttribute('vnl-radius', 'md');
-    }
+    const defaults = buttonTheme.defaultProps;
+
+    ['variant', 'color', 'size', 'radius'].forEach(attr => {
+      if (!this.hasAttribute(`vnl-${attr}`)) {
+        this.setAttribute(`vnl-${attr}`, defaults[attr]);
+      }
+    });
   }
 
   private _setupEventListeners(): void {
@@ -236,29 +232,53 @@ export class Button extends HTMLElement {
     this.setAttribute('vnl-color', value);
   }
 
+  get size(): string {
+    return this.getAttribute('vnl-size') || buttonTheme.defaultProps.size;
+  }
+
+  set size(value: string) {
+    this.setAttribute('vnl-size', value);
+  }
+
+  get radius(): string {
+    return this.getAttribute('vnl-radius') || buttonTheme.defaultProps.radius;
+  }
+
+  set radius(value: string) {
+    this.setAttribute('vnl-radius', value);
+  }
+
   attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
     if (oldValue === newValue) return;
 
-    const button = this.shadowRoot?.querySelector('button');
-    if (!button) return;
+    // Ensure button element exists
+    if (!this.shadowRoot || !this.button) {
+      requestAnimationFrame(() => {
+        this.attributeChangedCallback(name, oldValue, newValue);
+      });
+      return;
+    }
 
     switch (name) {
       case 'vnl-disabled':
       case 'vnl-loading':
-        button.disabled = this.disabled || this.loading;
+        this.button.disabled = this.disabled || this.loading;
         break;
       case 'vnl-disableRipple':
         if (this.ripple) {
           this.ripple.style.display = this.hasAttribute('vnl-disableRipple') ? 'none' : 'block';
         }
         break;
-      case 'vnl-color':
       case 'vnl-variant':
-        // CSS 변수와 클래스로 처리되므로 추가 처리 불필요
+      case 'vnl-color':
+      case 'vnl-size':
+      case 'vnl-radius':
+        // Force style update
+        this.button.style.display = this.button.style.display;
         break;
     }
 
-    // Dispatch attribute change event for external state management
+    // Notify attribute change
     this.dispatchEvent(
       new CustomEvent('vnl-change', {
         bubbles: true,
@@ -272,7 +292,6 @@ export class Button extends HTMLElement {
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', 'button');
     }
-    this._applyDefaultAttributes();
   }
 }
 

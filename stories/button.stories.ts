@@ -31,7 +31,11 @@ export default {
     radius: {
       control: { type: 'select' },
       options: ['none', 'sm', 'md', 'lg', 'full'],
-      description: '버튼의 모서리 둥글기를 설정합니다',
+      description: '버튼의 모서리 반경을 설정합니다. none(0px), sm(2px), md(6px), lg(8px), full(9999px)',
+      table: {
+        defaultValue: { summary: 'md' },
+        type: { summary: 'string' }
+      }
     },
     disabled: {
       control: 'boolean',
@@ -116,6 +120,24 @@ export const AllColors = () => html`
       color => html`
         <vnl-button vnl-color=${color}>
           ${color}
+        </vnl-button>
+      `
+    )}
+  </div>
+`;
+
+// 모든 radius 변형 보여주기
+export const AllRadiusVariants = () => html`
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+    ${['none', 'sm', 'md', 'lg', 'full'].map(
+      radius => html`
+        <vnl-button
+          vnl-radius=${radius}
+          vnl-color="primary"
+          vnl-variant="shadow"
+          vnl-size="lg"
+        >
+          radius-${radius}
         </vnl-button>
       `
     )}
@@ -245,3 +267,136 @@ export const ColorVariants = () => {
 
   return container;
 };
+
+export const RadiusShowcase = () => html`
+  <style>
+    .radius-showcase {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding: 1rem;
+    }
+    .radius-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .radius-section h3 {
+      margin: 0;
+      color: #666;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    .radius-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .radius-label {
+      min-width: 100px;
+      color: #666;
+      font-size: 0.9rem;
+    }
+  </style>
+  <div class="radius-showcase">
+    <div class="radius-section">
+      <h3>Basic Radius Variants</h3>
+      <div class="radius-row">
+        ${['none', 'sm', 'md', 'lg', 'full'].map(
+          radius => html`
+            <vnl-button
+              vnl-radius=${radius}
+              vnl-color="primary"
+              vnl-variant="solid"
+              vnl-size="lg"
+            >
+              radius-${radius}
+            </vnl-button>
+          `
+        )}
+      </div>
+    </div>
+
+    <div class="radius-section">
+      <h3>Radius with Different Variants</h3>
+      ${['solid', 'bordered', 'light', 'flat', 'faded', 'shadow', 'ghost'].map(
+        variant => html`
+          <div class="radius-row">
+            <div class="radius-label">${variant}:</div>
+            ${['none', 'sm', 'md', 'lg', 'full'].map(
+              radius => html`
+                <vnl-button
+                  vnl-radius=${radius}
+                  vnl-color="primary"
+                  vnl-variant=${variant}
+                >
+                  ${radius}
+                </vnl-button>
+              `
+            )}
+          </div>
+        `
+      )}
+    </div>
+
+    <div class="radius-section">
+      <h3>Radius with Different Colors</h3>
+      ${['primary', 'secondary', 'success', 'warning', 'danger', 'default'].map(
+        color => html`
+          <div class="radius-row">
+            <div class="radius-label">${color}:</div>
+            ${['none', 'sm', 'md', 'lg', 'full'].map(
+              radius => html`
+                <vnl-button
+                  vnl-radius=${radius}
+                  vnl-color=${color}
+                  vnl-variant="shadow"
+                >
+                  ${radius}
+                </vnl-button>
+              `
+            )}
+          </div>
+        `
+      )}
+    </div>
+  </div>
+`;
+
+export const RadiusWithFixedSize = () => html`
+  <style>
+    .fixed-size-button {
+      width: 200px;
+      height: 200px;
+    }
+    .radius-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+    }
+  </style>
+  <div class="radius-grid">
+    ${['none', 'sm', 'md', 'lg', 'full'].map(
+      radius => html`
+        <vnl-button
+          class="fixed-size-button"
+          vnl-radius=${radius}
+          vnl-color="primary"
+          vnl-variant="bordered"
+        >
+          radius-${radius}
+          <br>
+          <small style="opacity: 0.8">
+            ${radius === 'none' ? '0px' :
+            radius === 'sm' ? '2px' :
+            radius === 'md' ? '6px' :
+            radius === 'lg' ? '8px' :
+            '9999px'}
+          </small>
+        </vnl-button>
+      `
+    )}
+  </div>
+`;
