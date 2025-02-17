@@ -1,6 +1,8 @@
 import { ButtonStyles } from './button.styles';
 import { buttonTheme } from './button.theme';
-import { Ripple } from '../ripple/ripple.element';
+// Ripple 컴포넌트를 먼저 로드하도록 import 순서 변경
+import '../ripple/ripple.element';
+import type { Ripple } from '../ripple/ripple.element';
 
 export class Button extends HTMLElement {
   private ripple: Ripple | null = null;
@@ -27,6 +29,7 @@ export class Button extends HTMLElement {
   }
 
   private _initialize(): void {
+    console.log('Button initialization started');
     const shadow = this.attachShadow({ mode: 'open' });
     const style = document.createElement('style');
     style.textContent = ButtonStyles;
@@ -35,10 +38,9 @@ export class Button extends HTMLElement {
     this.button.setAttribute('part', 'button');
     this.button.classList.add('vnl-button');
 
-    // Apply default attributes immediately
+    console.log('Applying default attributes');
     this._applyDefaultAttributes();
 
-    // Basic button structure
     this.button.innerHTML = `
       <slot name="start-content" part="start-content"></slot>
       <span class="content" part="content">
@@ -50,15 +52,21 @@ export class Button extends HTMLElement {
     shadow.appendChild(style);
     shadow.appendChild(this.button);
 
+    console.log('Checking ripple state:', {
+      hasDisableRipple: this.hasAttribute('vnl-disableRipple'),
+      rippleExists: this.ripple !== null
+    });
+
+    // Wait for custom element definition to be ready
     if (!this.hasAttribute('vnl-disableRipple')) {
+      console.log('Creating ripple element');
       this.ripple = document.createElement('vnl-ripple') as Ripple;
       this.button.appendChild(this.ripple);
+      console.log('Ripple element added:', this.ripple);
     }
 
     this._setupEventListeners();
-
-    // Force a style recalculation
-    this.offsetHeight;
+    console.log('Button initialization completed');
   }
 
   private _applyDefaultAttributes(): void {
@@ -100,17 +108,37 @@ export class Button extends HTMLElement {
     }
 
     const rippleElement = this.ripple;
-    if (!rippleElement) {
+    if (!rippleElement || !rippleElement.shadowRoot) {
       return;
     }
 
-    const rect = this.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    const buttonRect = this.button?.getBoundingClientRect();
+    if (!buttonRect) return;
 
-    if (typeof rippleElement.addRipple === 'function') {
-      rippleElement.addRipple(x, y);
+    const x = event.clientX - buttonRect.left;
+    const y = event.clientY - buttonRect.top;
+
+    console.log('Creating ripple at:', { x, y });
+
+    // 직접 ripple 엘리먼트 생성 및 추가
+    const ripple = document.createElement('div');
+    ripple.className = 'ripple';
+    ripple.style.left = `${x - 50}px`;  // 100px 너비의 절반
+    ripple.style.top = `${y - 50}px`;   // 100px 높이의 절반
+
+    // 이전 ripple 제거
+    const existingRipple = rippleElement.shadowRoot.querySelector('.ripple');
+    if (existingRipple) {
+      existingRipple.remove();
     }
+
+    // 새 ripple 추가
+    rippleElement.shadowRoot.appendChild(ripple);
+
+    // 애니메이션 종료 후 제거
+    ripple.addEventListener('animationend', () => {
+      ripple.remove();
+    }, { once: true });
 
     this.dispatchEvent(
       new CustomEvent('vnl-pressstart', {

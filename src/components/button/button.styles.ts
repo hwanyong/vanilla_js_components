@@ -15,6 +15,7 @@ export const ButtonStyles = `
   }
 
   .vnl-button {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -27,6 +28,13 @@ export const ButtonStyles = `
     white-space: nowrap;
     transition: all 0.15s ease;
     overflow: hidden;
+  }
+
+  /* Add these styles for ripple */
+  .vnl-button vnl-ripple {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
   }
 
   /* Direct size styles */

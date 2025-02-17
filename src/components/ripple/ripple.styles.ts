@@ -5,7 +5,7 @@ export const RippleStyles = `
     overflow: hidden;
     border-radius: inherit;
     pointer-events: none;
-    transition: opacity 0.2s ease;
+    z-index: 0;
   }
 
   :host([vnl-disabled]) {
@@ -17,21 +17,22 @@ export const RippleStyles = `
     border-radius: 50%;
     transform-origin: center;
     background: currentColor;
-    opacity: 0.25;
+    opacity: 0.2;
     transform: scale(0);
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
     will-change: transform, opacity;
-    animation: ripple-animation 550ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: ripple-animation 600ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    pointer-events: none;
   }
 
   @keyframes ripple-animation {
     from {
       transform: scale(0);
-      opacity: 0.25;
+      opacity: 0.2;
     }
     to {
-      transform: scale(4);
+      transform: scale(2);
       opacity: 0;
     }
   }
