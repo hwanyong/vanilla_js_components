@@ -21,6 +21,6 @@ export default {
     'scope-case': [2, 'always', 'lowercase'],
     'subject-empty': [2, 'never'],
     'subject-full-stop': [2, 'never', '.'],
-    // 'subject-max-length': [2, 'always', 200],
+    'subject-max-length': [2, 'always', 200],
   },
 };
