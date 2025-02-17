@@ -59,6 +59,28 @@ const esmConfig = {
   ]
 };
 
+// CJS 모듈 설정
+const cjsConfig = {
+  input: {
+    index: 'src/index.ts',
+    ...components.reduce((acc, component) => ({
+      ...acc,
+      [component]: `src/components/${component}/${component}.element.ts`
+    }), {})
+  },
+  output: {
+    dir: 'dist/cjs',
+    format: 'cjs',
+    preserveModules: true,
+    preserveModulesRoot: 'src',
+    sourcemap: true,
+  },
+  plugins: [
+    resolve(),
+    createTypescriptPlugin('./dist/cjs'),
+  ]
+};
+
 // CDN 번들 설정
 const cdnConfig = {
   input: 'src/index.ts',
@@ -94,4 +116,4 @@ const componentCdnConfigs = components.map(component => ({
 // 개발 모드에서는 ESM 빌드만 실행
 export default dev
   ? [esmConfig]
-  : [esmConfig, cdnConfig, ...componentCdnConfigs];
+  : [esmConfig, cjsConfig, cdnConfig, ...componentCdnConfigs];
