@@ -29,7 +29,6 @@ export class Button extends HTMLElement {
   }
 
   private _initialize(): void {
-    console.log('Button initialization started');
     const shadow = this.attachShadow({ mode: 'open' });
     const style = document.createElement('style');
     style.textContent = ButtonStyles;
@@ -38,7 +37,6 @@ export class Button extends HTMLElement {
     this.button.setAttribute('part', 'button');
     this.button.classList.add('vnl-button');
 
-    console.log('Applying default attributes');
     this._applyDefaultAttributes();
 
     this.button.innerHTML = `
@@ -52,21 +50,12 @@ export class Button extends HTMLElement {
     shadow.appendChild(style);
     shadow.appendChild(this.button);
 
-    console.log('Checking ripple state:', {
-      hasDisableRipple: this.hasAttribute('vnl-disableRipple'),
-      rippleExists: this.ripple !== null
-    });
-
-    // Wait for custom element definition to be ready
     if (!this.hasAttribute('vnl-disableRipple')) {
-      console.log('Creating ripple element');
       this.ripple = document.createElement('vnl-ripple') as Ripple;
       this.button.appendChild(this.ripple);
-      console.log('Ripple element added:', this.ripple);
     }
 
     this._setupEventListeners();
-    console.log('Button initialization completed');
   }
 
   private _applyDefaultAttributes(): void {
@@ -117,8 +106,6 @@ export class Button extends HTMLElement {
 
     const x = event.clientX - buttonRect.left;
     const y = event.clientY - buttonRect.top;
-
-    console.log('Creating ripple at:', { x, y });
 
     // 직접 ripple 엘리먼트 생성 및 추가
     const ripple = document.createElement('div');
