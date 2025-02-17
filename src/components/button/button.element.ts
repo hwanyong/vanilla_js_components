@@ -239,6 +239,18 @@ export class Button extends HTMLElement {
     this.setAttribute('vnl-size', value);
   }
 
+  get fullwidth(): boolean {
+    return this.hasAttribute('vnl-fullwidth');
+  }
+
+  set fullwidth(value: boolean) {
+    if (value) {
+      this.setAttribute('vnl-fullwidth', 'true');
+    } else {
+      this.removeAttribute('vnl-fullwidth');
+    }
+  }
+
   get radius(): string {
     return this.getAttribute('vnl-radius') || buttonTheme.defaultProps.radius;
   }

@@ -426,6 +426,10 @@ export const ButtonStyles = `
   :host([vnl-fullwidth]) {
     display: block;
     width: 100%;
+
+    & .vnl-button {
+      width: 100%;
+    }
   }
 
   /* Animation */

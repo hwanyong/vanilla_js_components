@@ -5,6 +5,11 @@ export const RippleStyles = `
     overflow: hidden;
     border-radius: inherit;
     pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  :host([vnl-disabled]) {
+    display: none;
   }
 
   .ripple {
