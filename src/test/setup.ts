@@ -1,15 +1,38 @@
-import { afterEach } from 'vitest';
-import { Window } from 'happy-dom';
+import { beforeAll, afterEach, expect } from 'vitest';
 
-const window = new Window({
-  url: 'http://localhost',
-  width: 1024,
-  height: 768,
+// Web Components polyfill for testing environment
+import 'happy-dom/custom-elements';
+
+// Global test setup
+beforeAll(() => {
+  // Reset custom elements registry
+  (window as any).customElements = new CustomElementRegistry();
 });
 
-const document = window.document;
-
-// 각 테스트 후 DOM 정리
+// Global test teardown
 afterEach(() => {
+  // Clean up any registered elements after each test
   document.body.innerHTML = '';
+});
+
+// Add custom matchers or global test utilities here if needed
+expect.extend({
+  toHaveAttribute(received: Element, attr: string, value?: string) {
+    const hasAttr = received.hasAttribute(attr);
+    const actualValue = received.getAttribute(attr);
+
+    if (value === undefined) {
+      return {
+        message: () =>
+          `expected element ${hasAttr ? 'not ' : ''}to have attribute "${attr}"`,
+        pass: hasAttr,
+      };
+    }
+
+    return {
+      message: () =>
+        `expected element to have attribute "${attr}" with value "${value}", but got "${actualValue}"`,
+      pass: hasAttr && actualValue === value,
+    };
+  },
 });

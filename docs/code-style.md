@@ -101,13 +101,42 @@ This document outlines the code style rules and linting configuration for the pr
    - 미사용 변수는 `_` 접두사 사용
 
 3. **Web Components 네이밍**
-   - 모든 컴포넌트 클래스는 `Element` 접미사 필수
+   - 컴포넌트 클래스는 PascalCase 사용
    ```typescript
    // Good
-   class ButtonElement extends HTMLElement {}
+   class Button extends HTMLElement {}
 
    // Bad
-   class Button extends HTMLElement {}
+   class buttonElement extends HTMLElement {}
+   ```
+
+4. **속성 네이밍**
+   - 핵심 기능은 커스텀 속성 사용
+   ```typescript
+   // Good - 핵심 기능
+   static get observedAttributes(): string[] {
+     return ['vnl-variant', 'vnl-size'];
+   }
+
+   // Good - 메타데이터
+   element.dataset.vnlAnalytics = 'homepage-cta';
+   ```
+
+   ```html
+   <!-- Good - 핵심 기능은 커스텀 속성 -->
+   <button vnl-variant="solid" vnl-size="md">
+     Click me
+   </button>
+
+   <!-- Good - 메타데이터는 dataset -->
+   <button vnl-variant="solid" data-vnl-analytics="homepage-cta">
+     Click me
+   </button>
+
+   <!-- Bad - 핵심 기능에 dataset 사용 -->
+   <button data-vnl-variant="solid">
+     Click me
+   </button>
    ```
 
 ### Formatting
