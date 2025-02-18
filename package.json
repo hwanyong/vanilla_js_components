@@ -1,5 +1,5 @@
 {
-  "name": "@csdriveninsight/ui",
+  "name": "@uhd_kr/vanilla_js_components",
   "version": "1.0.0",
   "description": "Vanilla JS UI Components inspired by NextUI and shadcn/ui",
   "type": "module",
