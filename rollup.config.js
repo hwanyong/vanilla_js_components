@@ -4,6 +4,7 @@ import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 // 개발 모드 확인
 const dev = Boolean(process.env.ROLLUP_WATCH);
@@ -96,7 +97,12 @@ const cdnConfig = {
   plugins: [
     resolve(),
     createTypescriptPlugin('cdn'),
-    terser()
+    terser(),
+    visualizer({
+      filename: './bundle-analysis/cdn-bundle.html',
+      gzipSize: true,
+      brotliSize: true,
+    })
   ]
 };
 
@@ -113,7 +119,12 @@ const componentCdnConfigs = components.map(component => ({
   plugins: [
     resolve(),
     createTypescriptPlugin(`cdn/components/${component}`),
-    terser()
+    terser(),
+    visualizer({
+      filename: `./bundle-analysis/${component}-bundle.html`,
+      gzipSize: true,
+      brotliSize: true,
+    })
   ]
 }));
 
