@@ -99,7 +99,7 @@ const cdnConfig = {
     createTypescriptPlugin('cdn'),
     terser(),
     visualizer({
-      filename: './bundle-analysis/cdn-bundle.html',
+      filename: 'bundle-analysis-cdn.html',
       gzipSize: true,
       brotliSize: true,
     })
@@ -121,7 +121,7 @@ const componentCdnConfigs = components.map(component => ({
     createTypescriptPlugin(`cdn/components/${component}`),
     terser(),
     visualizer({
-      filename: `./bundle-analysis/${component}-bundle.html`,
+      filename: `bundle-analysis-${component}.html`,
       gzipSize: true,
       brotliSize: true,
     })
