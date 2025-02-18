@@ -7,6 +7,12 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+  packages: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -39,9 +45,28 @@ jobs:
       - name: Build Storybook
         run: pnpm build-storybook
 
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: |
+            dist
+            storybook-static
+          retention-days: 1
+
+  analyze:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+
       - name: Analyze bundle
         run: |
-          pnpm run analyze
           mkdir -p bundle-analysis
           mv bundle-analysis*.html bundle-analysis/
 
@@ -50,32 +75,77 @@ jobs:
         with:
           name: bundle-analysis
           path: bundle-analysis
+          retention-days: 7
 
-      # GitHub Pages 배포 (main 브랜치만)
+  deploy-storybook:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+
       - name: Deploy Storybook to GitHub Pages
-        if: github.ref == 'refs/heads/main'
+        id: deployment
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./storybook-static
+          enable_jekyll: false
+          force_orphan: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
 
-      # GitHub Packages 배포 (main 브랜치만)
+  publish-github:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+
+      - name: Setup Node.js for GitHub Packages
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@uhd_kr'
+
       - name: Publish to GitHub Packages
-        if: github.ref == 'refs/heads/main'
         run: pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # NPM 배포 (태그 푸시만)
-      - name: Setup NPM registry
-        if: startsWith(github.ref, 'refs/tags/v')
+  publish-npm:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+
+      - name: Setup Node.js for NPM
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Publish to NPM
-        if: startsWith(github.ref, 'refs/tags/v')
         run: pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
