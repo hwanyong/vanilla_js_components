@@ -18,23 +18,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@uhd_kr'
 
       - name: Setup PNPM
         uses: pnpm/action-setup@v3
         with:
           version: 8
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Build
         run: pnpm run build
@@ -45,13 +42,25 @@ jobs:
       - name: Build Storybook
         run: pnpm build-storybook
 
-      - name: Upload build artifacts
+      - name: Upload dist
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifacts
-          path: |
-            dist
-            storybook-static
+          name: dist
+          path: dist
+          retention-days: 1
+
+      - name: Upload storybook
+        uses: actions/upload-artifact@v4
+        with:
+          name: storybook
+          path: storybook-static
+          retention-days: 1
+
+      - name: Upload bundle analysis
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle-analysis
+          path: bundle-analysis*.html
           retention-days: 1
 
   analyze:
@@ -59,11 +68,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            bundle-analysis
+          sparse-checkout-cone-mode: false
 
-      - name: Download build artifacts
+      - name: Download bundle analysis
         uses: actions/download-artifact@v4
         with:
-          name: build-artifacts
+          name: bundle-analysis
+          path: bundle-analysis
 
       - name: Analyze bundle
         run: |
@@ -73,7 +87,7 @@ jobs:
       - name: Upload bundle analysis
         uses: actions/upload-artifact@v4
         with:
-          name: bundle-analysis
+          name: bundle-analysis-report
           path: bundle-analysis
           retention-days: 7
 
@@ -86,11 +100,15 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github
+          sparse-checkout-cone-mode: false
 
-      - name: Download build artifacts
+      - name: Download storybook
         uses: actions/download-artifact@v4
         with:
-          name: build-artifacts
+          name: storybook
+          path: storybook-static
 
       - name: Deploy Storybook to GitHub Pages
         id: deployment
@@ -110,10 +128,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v3
         with:
-          name: build-artifacts
+          version: 8
 
       - name: Setup Node.js for GitHub Packages
         uses: actions/setup-node@v4
@@ -121,6 +139,16 @@ jobs:
           node-version: '20'
           registry-url: 'https://npm.pkg.github.com'
           scope: '@uhd_kr'
+          cache: 'pnpm'
+
+      - name: Download dist
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Publish to GitHub Packages
         run: pnpm publish --no-git-checks
@@ -134,16 +162,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v3
         with:
-          name: build-artifacts
+          version: 8
 
       - name: Setup Node.js for NPM
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+
+      - name: Download dist
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Publish to NPM
         run: pnpm publish --no-git-checks
