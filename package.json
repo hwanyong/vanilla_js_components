@@ -37,8 +37,8 @@
     "docs": "typedoc",
     "docs:watch": "typedoc --watch",
     "prepare": "husky",
-    "release": "pnpm run build && pnpm publish --access public",
-    "release:npm": "pnpm run build && pnpm publish --access public --registry https://registry.npmjs.org/",
+    "release": "pnpm run build && pnpm publish --no-git-checks --access public",
+    "release:npm": "pnpm run build && pnpm publish --no-git-checks --access public --registry https://registry.npmjs.org/",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test-storybook": "test-storybook",
@@ -72,7 +72,8 @@
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",
-    "access": "public"
+    "access": "public",
+    "git-checks": false
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.11",
