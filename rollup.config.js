@@ -15,11 +15,13 @@ const components = [
 ];
 
 // TypeScript 플러그인 설정
-const createTypescriptPlugin = (outDir) => typescript({
+const createTypescriptPlugin = (format) => typescript({
   tsconfig: './tsconfig.json',
   declaration: true,
-  declarationDir: outDir + '/types',
+  declarationDir: `dist/${format}`,
   include: ['src/**/*.ts'],
+  sourceMap: true,
+  module: 'ESNext',
 });
 
 // 개발 서버 플러그인
@@ -54,7 +56,7 @@ const esmConfig = {
   },
   plugins: [
     resolve(),
-    createTypescriptPlugin('./dist/esm'),
+    createTypescriptPlugin('esm'),
     ...devPlugins
   ]
 };
@@ -77,7 +79,7 @@ const cjsConfig = {
   },
   plugins: [
     resolve(),
-    createTypescriptPlugin('./dist/cjs'),
+    createTypescriptPlugin('cjs'),
   ]
 };
 
@@ -85,14 +87,15 @@ const cjsConfig = {
 const cdnConfig = {
   input: 'src/index.ts',
   output: {
-    file: 'dist/cdn/ui.min.js',
+    dir: 'dist/cdn',
+    entryFileNames: 'ui.min.js',
     format: 'iife',
     name: 'UI',
     sourcemap: true,
   },
   plugins: [
     resolve(),
-    createTypescriptPlugin('./dist/cdn'),
+    createTypescriptPlugin('cdn'),
     terser()
   ]
 };
@@ -101,14 +104,15 @@ const cdnConfig = {
 const componentCdnConfigs = components.map(component => ({
   input: `src/components/${component}/${component}.element.ts`,
   output: {
-    file: `dist/cdn/components/${component}.min.js`,
+    dir: `dist/cdn/components`,
+    entryFileNames: `${component}.min.js`,
     format: 'iife',
     name: `UI${component.charAt(0).toUpperCase() + component.slice(1)}`,
     sourcemap: true,
   },
   plugins: [
     resolve(),
-    createTypescriptPlugin(`./dist/cdn/components/${component}`),
+    createTypescriptPlugin(`cdn/components/${component}`),
     terser()
   ]
 }));

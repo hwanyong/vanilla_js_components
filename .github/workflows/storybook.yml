@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: '20'
           cache: 'pnpm'
-      
+
       - name: Install dependencies
         run: |
           if [ ! -f "pnpm-lock.yaml" ]; then
