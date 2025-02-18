@@ -30,7 +30,12 @@ jobs:
           cache: 'pnpm'
       
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: |
+          if [ ! -f "pnpm-lock.yaml" ]; then
+            pnpm install
+          else
+            pnpm install --frozen-lockfile
+          fi
 
       - name: Build Storybook
         run: pnpm build-storybook

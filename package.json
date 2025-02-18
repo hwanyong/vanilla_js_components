@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "Vanilla JS UI Components inspired by NextUI and shadcn/ui",
   "type": "module",
-  "main": "dist/esm/index.js",
+  "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
+  "unpkg": "dist/cdn/ui.min.js",
+  "jsdelivr": "dist/cdn/ui.min.js",
   "types": "dist/types/index.d.ts",
   "exports": {
     ".": {
