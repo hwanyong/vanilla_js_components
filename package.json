@@ -41,7 +41,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test-storybook": "test-storybook",
-    "analyze": "pnpm run build && mkdir -p bundle-analysis"
+    "analyze": "pnpm run build && mkdir -p bundle-analysis",
+    "check-bundle-size": "node scripts/check-bundle-size.js"
   },
   "keywords": [
     "ui",
