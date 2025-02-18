@@ -39,6 +39,7 @@
     "prepare": "husky",
     "release": "pnpm run build && pnpm publish --no-git-checks --access public",
     "release:npm": "pnpm run build && pnpm publish --no-git-checks --access public --registry https://registry.npmjs.org/",
+    "release:github": "pnpm run build && npm pkg set name=\"@hwanyong/vanilla_js_components\" && pnpm publish --no-git-checks --access public --registry https://npm.pkg.github.com/ && npm pkg set name=\"@uhd_kr/vanilla_js_components\"",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test-storybook": "test-storybook",
@@ -71,7 +72,7 @@
     "node": ">=14.0.0"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com",
+    "registry": "https://registry.npmjs.org",
     "access": "public",
     "git-checks": false
   },

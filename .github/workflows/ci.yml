@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js for GitHub
         uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -55,21 +55,30 @@ jobs:
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
 
-      - name: Publish to GitHub Packages
-        if: github.ref == 'refs/heads/main'
-        run: pnpm run release
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup NPM registry
+      - name: Setup Node.js for NPM
         if: startsWith(github.ref, 'refs/tags/v')
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
+          scope: '@uhd_kr'
 
       - name: Publish to NPM
         if: startsWith(github.ref, 'refs/tags/v')
         run: pnpm run release:npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Setup Node.js for GitHub Packages
+        if: github.ref == 'refs/heads/main'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@hwanyong'
+
+      - name: Publish to GitHub Packages
+        if: github.ref == 'refs/heads/main'
+        run: pnpm run release:github
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
