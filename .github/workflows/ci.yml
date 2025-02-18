@@ -58,26 +58,25 @@ jobs:
 
       - name: Upload bundle analysis
         uses: actions/upload-artifact@v4
-        with:
-          name: bundle-analysis
-          path: bundle-analysis*.html
-          retention-days: 1
-
-  analyze:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
       - uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            bundle-analysis
-          sparse-checkout-cone-mode: false
 
-      - name: Download bundle analysis
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          name: bundle-analysis
-          path: bundle-analysis
+          name: build-artifacts
 
       - name: Analyze bundle
         run: |
@@ -87,7 +86,7 @@ jobs:
       - name: Upload bundle analysis
         uses: actions/upload-artifact@v4
         with:
-          name: bundle-analysis-report
+          name: bundle-analysis
           path: bundle-analysis
           retention-days: 7
 
@@ -100,15 +99,24 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          sparse-checkout: .github
-          sparse-checkout-cone-mode: false
 
-      - name: Download storybook
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          name: storybook
-          path: storybook-static
+          name: build-artifacts
 
       - name: Deploy Storybook to GitHub Pages
         id: deployment
@@ -133,22 +141,20 @@ jobs:
         with:
           version: 8
 
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
       - name: Setup Node.js for GitHub Packages
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           registry-url: 'https://npm.pkg.github.com'
           scope: '@uhd_kr'
-          cache: 'pnpm'
-
-      - name: Download dist
-        uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: dist
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
 
       - name: Publish to GitHub Packages
         run: pnpm publish --no-git-checks
@@ -167,21 +173,19 @@ jobs:
         with:
           version: 8
 
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
       - name: Setup Node.js for NPM
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
-          cache: 'pnpm'
-
-      - name: Download dist
-        uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: dist
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
 
       - name: Publish to NPM
         run: pnpm publish --no-git-checks
