@@ -104,8 +104,12 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      # ★ NPM 쪽과 같은 조건(태그 푸시)이다. 예전에는 main 푸시마다 게시를 시도했는데,
+      #   package.json 의 버전은 태그를 달 때만 오르므로 그 사이의 모든 푸시가
+      #   409 Conflict("Cannot publish over existing version") 로 죽었다.
+      #   릴리스는 태그에서 나온다는 이 저장소의 규칙을 두 게시처가 함께 따른다.
       - name: Setup Node.js for GitHub Packages
-        if: github.ref == 'refs/heads/main'
+        if: startsWith(github.ref, 'refs/tags/v')
         uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -113,7 +117,7 @@ jobs:
           scope: '@hwanyong'
 
       - name: Publish to GitHub Packages
-        if: github.ref == 'refs/heads/main'
+        if: startsWith(github.ref, 'refs/tags/v')
         run: pnpm run release:github
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
