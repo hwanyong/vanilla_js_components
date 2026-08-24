@@ -55,6 +55,26 @@ jobs:
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
 
+      # ── Cloudflare Workers (lab.hwanyong.com) ──────────────────────────
+      # GitHub Pages 와 ★함께★ 나간다. 위 gh-pages 배포는 그대로 두고 같은
+      # 산출물을 lab 쪽으로도 보낸다 — 런칭 전까지 두 자리가 모두 살아 있어야 한다.
+      # ★ 선행 조건: 저장소 시크릿 CLOUDFLARE_API_TOKEN · CLOUDFLARE_ACCOUNT_ID.
+      - name: Arrange assets under the served path
+        if: github.ref == 'refs/heads/main'
+        run: |
+          mkdir -p out/vanilla_js_components
+          cp -R storybook-static/. out/vanilla_js_components/
+          cp cloudflare/_headers out/_headers
+          echo "--- 25 MiB 초과로 제외되는 자산:"
+          find out -type f -size +25M -print -delete
+
+      - name: Deploy to Cloudflare
+        if: github.ref == 'refs/heads/main'
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
       - name: Setup Node.js for NPM
         if: startsWith(github.ref, 'refs/tags/v')
         uses: actions/setup-node@v4

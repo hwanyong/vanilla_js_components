@@ -1,0 +1,23 @@
+# wrangler.toml — Cloudflare Workers 정적 자산 배포.
+#
+# 산출물은 Storybook 빌드(storybook-static)다. 지금은 그것을 gh-pages 브랜치로 밀어
+# GitHub Pages 가 내보내고 있고(peaceiris/actions-gh-pages), 런칭 전까지 그대로 둔다.
+# 이 설정은 같은 산출물을 lab 쪽으로도 함께 내보내기 위한 것이다.
+#
+# ★ storybook-static 을 out/vanilla_js_components/ 로 한 겹 옮겨 담는다 — Worker 의
+#   정적 자산은 루트 기준이라 그대로 올리면 경로가 맞지 않는다.
+name = "vanilla-js-components"
+compatibility_date = "2026-08-23"
+
+[assets]
+directory = "./out"
+not_found_handling = "404-page"
+# ★ "none" 이다. 기본값 auto-trailing-slash 는 /iframe.html 을 /iframe 으로 307
+#   리다이렉트하는데, Storybook 은 스토리를 iframe.html?id=... 로 직접 불러온다 —
+#   그 주소가 리다이렉트되면 스토리가 뜨지 않는다. GitHub Pages 와 같은 동작
+#   (.html 을 그대로 200)을 유지하고, 디렉터리 색인은 _redirects 가 잇는다.
+html_handling = "none"
+
+[[routes]]
+pattern = "lab.hwanyong.com/vanilla_js_components/*"
+zone_name = "hwanyong.com"

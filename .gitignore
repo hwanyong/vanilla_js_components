@@ -47,3 +47,6 @@ temp/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# wrangler 로컬 상태
+.wrangler/
