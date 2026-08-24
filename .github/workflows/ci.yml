@@ -68,6 +68,17 @@ jobs:
           echo "--- 25 MiB 초과로 제외되는 자산:"
           find out -type f -size +25M -print -delete
 
+      # ★ wrangler 4.x 는 Node 22 이상을 요구한다. 이 잡은 위에서 Node 20 으로
+      #   맞춰 두었고(Storybook 빌드·npm publish 가 그 버전을 쓴다), 그대로 두면
+      #   "Wrangler requires at least Node.js v22" 로 죽는다. 배포 스텝 앞에서만
+      #   올리고 기존 빌드는 건드리지 않는다 — 뒤의 publish 스텝이 자기 버전을
+      #   다시 지정하므로 여기 올린 값이 그쪽으로 새지 않는다.
+      - name: Setup Node.js for Wrangler
+        if: github.ref == 'refs/heads/main'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: Deploy to Cloudflare
         if: github.ref == 'refs/heads/main'
         uses: cloudflare/wrangler-action@v4
