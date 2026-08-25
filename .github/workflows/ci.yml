@@ -7,10 +7,11 @@ on:
   pull_request:
     branches: [ main ]
 
+# ★ 2026-08-25 에 셋을 걷었다. contents: write · pages: write · id-token: write 는
+#   gh-pages 브랜치로 Storybook 을 밀던 스텝의 것이었고 그 스텝을 지웠다.
+#   packages: write 만 남는다 — 태그 푸시 때 GitHub Packages 로 게시한다.
 permissions:
-  contents: write
-  pages: write
-  id-token: write
+  contents: read
   packages: write
 
 jobs:
@@ -43,21 +44,14 @@ jobs:
       - name: Build Storybook
         run: pnpm build-storybook
 
-      - name: Deploy Storybook to GitHub Pages
-        if: github.ref == 'refs/heads/main'
-        id: deployment
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./storybook-static
-          enable_jekyll: false
-          force_orphan: true
-          user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com'
-
       # ── Cloudflare Workers (lab.hwanyong.com) ──────────────────────────
-      # GitHub Pages 와 ★함께★ 나간다. 위 gh-pages 배포는 그대로 두고 같은
-      # 산출물을 lab 쪽으로도 보낸다 — 런칭 전까지 두 자리가 모두 살아 있어야 한다.
+      # ★이 배포가 유일하다.★
+      #
+      # ★ 한때 위에 gh-pages 브랜치로 Storybook 을 미는 스텝이 하나 더 있었다.
+      #   blog.hwanyong.com 은 이제 Cloudflare 가 서빙하고 옛 경로는 Worker 가
+      #   lab 으로 301 하므로, 그 브랜치를 읽는 곳이 없어져 2026-08-25 에 지웠다.
+      #   (gh-pages 브랜치 자체는 남아 있다 — 지우면 Pages 가 내려간다.)
+      #
       # ★ 선행 조건: 저장소 시크릿 CLOUDFLARE_API_TOKEN · CLOUDFLARE_ACCOUNT_ID.
       - name: Arrange assets under the served path
         if: github.ref == 'refs/heads/main'
